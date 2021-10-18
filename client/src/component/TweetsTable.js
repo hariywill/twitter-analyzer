@@ -6,38 +6,33 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 const TweetsTable = ({ tweets }) => {
-    const [rowData, setRowdata] = useState()
-    const { tags } = useGlobalContext()
+    //const { tags } = useGlobalContext()
+    /* const [rowData, setRowData] = useState([])
+    console.log(tweets)
+    const tags = ["Lebron"]
 
     const filterTweets = () => {
-        let temp = []
-        tags.forEach(tag => {
-            temp = tweets.filter(tweet => {
-                return tweet.includes(tag)
+        tweets = tweets.filter(tweet => {
+                return tweet.tweet.includes(tags)
             })
-        })
-        setRowdata(temp)
+        }
     }
 
     useEffect(() => {
-        console.log(tweets);
-        setRowdata(tweets)
-        console.log(rowData);
-    }, [])
-
-    useEffect(() => {
         filterTweets()
-    }, [tags])
+        console.log(tweets)
+    }, [tags]) */
 
     return (
         <div>
             <div className="ag-theme-alpine" style={{height: 400, width: '96%'}}>
                 <AgGridReact
-                    rowData={rowData}
+                    rowData={tweets}
                 >
                     <AgGridColumn field="date" width={'auto'}></AgGridColumn> 
-                    <AgGridColumn field="user" width={'auto'}></AgGridColumn>
+                    <AgGridColumn field="mention" width={'auto'}></AgGridColumn>
                     <AgGridColumn field="tweet" width={'auto'}></AgGridColumn>
+                    <AgGridColumn field="sentiment" width={'auto'}></AgGridColumn>
                 </AgGridReact>
             </div>
         </div>

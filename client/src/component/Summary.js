@@ -1,19 +1,21 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
+import { useGlobalContext } from '../context';
 
 const Summary = ({ user, details }) => {
     const classes = useStyles()
+    const { tweets } = useGlobalContext()
     return (
         <div className={classes.summary}>
-            {(user && details) && (
+            {(tweets.length > 0) && (
                 <Grid container spacing={0} className={classes.summaryboard}>
                     <Grid item xs={4} className={classes.profile}>
-                        <img src={user.img} className={classes.profilepic} />
+                        <img src={tweets.profile} className={classes.profilepic} />
                         <div className={classes.info}>
                             <h2>User</h2>
-                            <p className={classes.username}>@{user.screen_name}</p>
-                            <p className={classes.bio}>{user.bio}</p>
+                            <p className={classes.username}>@{tweets.name}</p>
+                            <p className={classes.bio}>{tweets.bio}</p>
                         </div>
                     </Grid>
                     <Grid item xs={4} >
@@ -25,8 +27,7 @@ const Summary = ({ user, details }) => {
                     </Grid>
                     <Grid item xs={4} >
                         <div className={classes.details}>
-                            <h4>From {details.data.start} to {details.data.end}: </h4>
-                            <h3>This user has tweeted <span className={classes.numberoftweets}>{details.data.numberOfTweets}</span> times</h3>
+                            <h3>This user has tweeted <span className={classes.numberoftweets}>{tweets.length}</span> times</h3>
                         </div>
                     </Grid>
                 </Grid>

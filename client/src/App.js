@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './page/Home';
+import Dashboard from './page/Dashboard';
 import { AppProvider } from './context';
 
-function App() {
+function App() {  
   return (
     <AppProvider>
       <Router>
         <Switch>
-          {/* Combine home and main as one */}
           <Route path="/" exact component={Home} />
+          <Route path="/dashboard/:account" exact component={Dashboard} />
         </Switch>
       </Router>
     </AppProvider>

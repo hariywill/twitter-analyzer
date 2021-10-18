@@ -33,10 +33,6 @@ const Header = () => {
         }
     } */
 
-    const handleSubmit = () => {
-        console.log("Submitted!")
-    }
-
     return (
         <div>
             <Grid className={classes.row} container spacing={24}>
@@ -44,10 +40,7 @@ const Header = () => {
                     <Typography variant="h4" className={classes.text}>Tweets Analysis</Typography>
                 </Grid>
                 <Grid item md={3}>
-                    <Search onSubmit={async (value) => {
-                        
-                        handleSubmit(value)
-                    }} />
+                    <Search />
                 </Grid>
             </Grid>
         </div>

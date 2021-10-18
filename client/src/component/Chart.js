@@ -1,62 +1,69 @@
-import React from 'react';
-import { Bar } from 'react-chartjs-2';
+import React, { useState, useEffect} from 'react';
+import { Line } from 'react-chartjs-2';
+import { useGlobalContext } from '../context';
 
-const data = {
-  labels: ['1', '2', '3', '4', '5', '6'],
-  datasets: [
-    {
-      label: '# of Red Votes',
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: 'rgb(255, 99, 132)',
-    },
-    {
-      label: '# of Blue Votes',
-      data: [2, 3, 20, 5, 1, 4],
-      backgroundColor: 'rgb(54, 162, 235)',
-    },
-    {
-      label: '# of Green Votes',
-      data: [3, 10, 13, 15, 22, 30],
-      backgroundColor: 'rgb(75, 192, 192)',
-    },
-  ],
-};
+const Chart = () => {
+    var months, labels, times, state
+    const { tweets } = useGlobalContext()
 
-const options = {
-  scales: {
-    yAxes: [
-      {
-        stacked: true,
-        ticks: {
-          beginAtZero: true,
-        },
-      },
-    ],
-    xAxes: [
-      {
-        stacked: true,
-      },
-    ],
-  },
-};
+    const getMonthsOfTweets = (tweets) => {
+        var months = tweets.map(tweet => {
+            //split the date string by " ", then get the second element of each string array which is month
+            return (tweet.date.split(' '))[1]
+        })
+        return months
+    }
 
-const Chart = () => (
-  <>
-    <div className='header'>
-      <h1 className='title'>Recent Acitivity</h1>
-      <div className='links'>
-        <a
-          className='btn btn-gh'
-          href='https://github.com/reactchartjs/react-chartjs-2/blob/master/example/src/charts/StackedBar.js'
-        >
-          Github Source
-        </a>
-      </div>
-    </div>
-    <Bar data={data} options={options} />
-  </>
-);
+    const countMonths = (months) => {
+        const counts = {};
+        months.forEach((x) => { counts[x] = (counts[x] || 0) + 1})
+        return counts
+    }
+    months = countMonths(getMonthsOfTweets(tweets))
+        labels = Object.keys(months)
+        times = Object.values(months)
+        state = {
+            labels: labels,
+              datasets: [
+                    {
+                      label: 'Number of tweets',
+                      fill: false,
+                      lineTension: 0,
+                      backgroundColor: 'rgba(75,192,192,1)',
+                      borderColor: 'rgba(75,192,192,1)',
+                      borderWidth: 2,
+                      data: times
+                }
+            ]
+        }
+
+    useEffect(() => {
+        console.log(tweets)
+    }, [])
+
+    return (
+        <div>
+            <div className='header'>
+                <h2 className='title'>Tweet Timeline</h2>
+            </div>
+            <Line
+                data={state}
+                options={{
+                    title:{
+                        display:true,
+                        text:'Average Rainfall per month',
+                        fontSize:20
+                    },
+                    legend:{
+                        display:true,
+                        position:'right'
+                    }
+                }}
+            />
+        </div>
+    )
+}
 
 
 
-export default Chart;
+export default Chart

@@ -1,8 +1,10 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
+import { Grid } from '@material-ui/core';
 import Summary from './Summary';
 import Chart from './Chart';
 import Tweets from './Tweets';
+import WordCloud from './WordCloud';
 
 const Analysis = () => {
     const classes = useStyles()
@@ -26,27 +28,32 @@ const Analysis = () => {
     return (
         <div>
             <Summary user={user} details={details} />
-            <div className={classes.chart}>
-                <Chart />
-            </div>
-            <div className={classes.emojis}>
-
-            </div>
+            <Grid container className={classes.charts} >
+                <Grid item md={6} className={classes.barchart}>
+                    <Chart />
+                </Grid>
+                <Grid item md={6} className={classes.wordcloud}>
+                    <WordCloud />
+                </Grid>
+            </Grid>
             <Tweets />
         </div>
     )
 }
 
 const useStyles = makeStyles(theme => ({
-    chart: {
+    /* charts: {
+        display: 'flex',
+        
+    }, */
+    barchart: {
         backgroundColor:'white',
         width:'50%',
         height: '50%',
         paddingLeft: '60px',
-        paddingBottom: '30px'
+        paddingBottom: '30px',
     },
-    emojis: {
-
+    wordcloud: {
     }
 }))
 

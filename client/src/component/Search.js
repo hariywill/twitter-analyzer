@@ -1,30 +1,38 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { FaSearch } from 'react-icons/fa';
 import { Grid } from '@material-ui/core';
-
-import { FaSearch } from 'react-icons/fa'
+import { useGlobalContext } from '../context';
+import fetchTweets from '../action/fetchTweets';
 
 const SearchBar = ({ onSubmit }) => {
     const [searchTerms, setSearchTerms] = useState('')
     const [error, setError] = useState('')
     const classes = useStyles()
-    let data = require('./data.json')
-    console.log(data.data[0])
-
-    //handling submit
-    const handleSubmit = () => { onSubmit(searchTerms) }
+    //const { setTweets } = useGlobalContext()
 
     const handleChange = (x) => {
-        const { value } = x.target
+        const { value } = x.target;
+        if (/[^\w]/.test(value)) {
+            setError("There is no special characters in Twitter username. Please enter a correct username.");
+        } else if (value.length > 15) {
+            setError("Please enter a Twitter username with less than 15 characters length.");
+        }
+        else {
+            setError(null)
+        }
         setSearchTerms(value)
+    }
+
+    const handleSubmit = () => {
+        onSubmit(searchTerms)
     }
 
     //function to handle when user click enter
     const handleKeyPress = (e) => {
         //when there is no error
         if (e.which === 13 && !error) {
-            handleSubmit()
+            handleSubmit();
         }
     }
 
@@ -33,7 +41,7 @@ const SearchBar = ({ onSubmit }) => {
             <Grid className={classes.home} container spacing={24}>
                 <Grid item md={8}>
                     <form className={classes.form}>
-                        <input type="text" name="tags" label="Tags" onChange={e => handleChange(e.target.value)} onKeyPress={handleKeyPress} />
+                        <input type="text" name="tags" label="Tags" onChange={e => handleChange(e)} onKeyPress={handleKeyPress} />
                         <button type="submit" size="large" className={classes.buttonSubmit} onClick={handleSubmit} ><FaSearch /></button>
                     </form>
                 </Grid>

@@ -1,31 +1,38 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import TweetsTable from './TweetsTable';
-import Tags from './Tags';
+import Keywords from './Keywords';
 import { useGlobalContext } from '../context';
+import analyzeSentiment from '../action/analyzeSentiment';
 
 const Tweets = () => {
     const classes = useStyles()
-    const { tags } = useGlobalContext()
-
+    const { keywords } = useGlobalContext()
     let data = require('./data.json')
-    //console.log(data.data)
-    const [tweets, setTweets] = useState([])
-
-    useEffect(() => {
-        let temp = data.data.map(tweetObject => {
-            return {
-                date: tweetObject.created_at,
-                user: tweetObject.id,
-                tweet: tweetObject.text
-            }
-        })
-        setTweets(temp)
-    }, [])
-
+    console.log(data)
+      let tweets = data.map((tweetObject) => {
+        let senti = analyzeSentiment(tweetObject.text.split(' '))
+        let mentionArray = tweetObject.entities.user_mentions
+        let mentionString
+        if (mentionArray.length > 0) {
+            mentionString = mentionArray
+                                    .map(mention => mention.screen_name)
+                                    .join(', ')
+        } else mentionString = "-"
+        let newarray = {
+              date: tweetObject.created_at,
+              mention: mentionString,
+              tweet: tweetObject.text,
+              sentiment: senti > 0 ? "happy" 
+                    : senti == 0 ? "calm"
+                    : "mad"
+          }  
+        return newarray 
+      })
+    
     return (
         <div className={classes.tweetsboard}>
-            <Tags />
+            <Keywords />
             <h1 className={classes.title}>Filltered Tweets</h1>
             {tweets.length > 0 ?
                     <div className={classes.table}>
@@ -41,16 +48,14 @@ const Tweets = () => {
 const useStyles = makeStyles(theme => ({
     tweetsboard: {
         paddingLeft: '50px',
-        backgroundColor: 'yellow',
+        backgroundColor: '#1DA1F2'
         
     },
     title: {
         justifyContent: 'center',
-        backgroundColor: 'red',
         display: 'flex'
     },
     table: {
-        backgroundColor: 'red',
         width: '100%'
     }
 }))
