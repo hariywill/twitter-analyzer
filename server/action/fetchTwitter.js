@@ -6,6 +6,8 @@ var AWS = require("aws-sdk");
 const storeAWS = require('./aws');
 const redis = require('redis');
 
+console.log(config)
+
 module.exports = {
 
     getTweets: async (accountname, lastTwitterId) => {
@@ -56,7 +58,7 @@ module.exports = {
                 tweet_mode: "extended"
             }
             console.log(params)
-            T.get('statuses/user_timeline.json?', params, function (err, data, response) {
+            T.get('statuses/user_timeline', params, function (err, data, response) {
                 try {
                     const tweetsdata = []
                     const user = {
@@ -82,6 +84,7 @@ module.exports = {
                         reject('Error: Something went wrong with Twitter API')
                     }
                 } catch {
+                    console.log(err)
                     return resolve({ 'error': true });
                 }
             })

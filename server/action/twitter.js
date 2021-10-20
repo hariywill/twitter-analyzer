@@ -111,7 +111,7 @@ module.exports = {
                 count: 200,
                 tweet_mode: "extended"
             }
-            T.get('statuses/user_timeline.json?', params, function (err, data, response) {
+            T.get('statuses/user_timeline', params, function (err, data, response) {
                 try {
                     const tweetsdata = []
                     const user = {
