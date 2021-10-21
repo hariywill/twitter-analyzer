@@ -6,12 +6,10 @@ var AWS = require("aws-sdk");
 const storeAWS = require('./aws');
 const redis = require('redis');
 
-console.log(config)
-
 module.exports = {
 
     getTweets: async (accountname, lastTwitterId) => {
-        console.log('Get Tweets --------------- ')
+        
         return new Promise((resolve, reject) => {
             const redisClient = redis.createClient({
                 //host: config.elasticConfig,
@@ -27,9 +25,9 @@ module.exports = {
             return redisClient.get(accountname, async (err, result) => {
                 try {
                     //No tweets in bucket, pull from twitter
+                    console.log('Fetch Tweets Started --------------- ')
                     tweetsResult = await module.exports.fetchTweet(accountname);
-                    console.log('Tweets result:')
-                    console.log(tweetsResult)
+                    console.log('Fetch Tweets Finished --------------- ')
                     //User does not exist
                     if (tweetsResult.error) {
                         return resolve({ 'usernameError': true })
@@ -37,8 +35,8 @@ module.exports = {
                         const analysisResult = await actions.runAnalysis(tweetsResult[1]);
                         twitterData = await module.exports.buildTweetObject(analysisResult);
                         twitterData.user = tweetsResult[0];
-                        
                         //module.exports.storeCacheAndBucket(accountname, twitterData, redisClient)
+                        
                         return resolve(twitterData);
                     }
                 } catch (err) {
@@ -50,7 +48,6 @@ module.exports = {
 
     //Retrieves latest 200 tweets from twitter profile
     fetchTweet: (accountname) => {
-        console.log('Fetch Tweets --------------- ')
         return new Promise((resolve, reject) => {
             const params = {
                 screen_name: accountname,
@@ -76,7 +73,7 @@ module.exports = {
                         tweet.date = new Date(result.created_at);
                         tweetsdata.push(tweet);
                     })
-                    console.log(tweetsdata)
+                    console.log(user)
                     if (!err) {
                         return resolve([user, tweetsdata]);
                     }

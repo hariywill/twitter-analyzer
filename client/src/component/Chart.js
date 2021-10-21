@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useEffect} from 'react';
 import { Line } from 'react-chartjs-2';
 import { useGlobalContext } from '../context';
 
@@ -39,7 +39,7 @@ const Chart = () => {
 
     useEffect(() => {
         console.log(tweets)
-    }, [])
+    }, [tweets])
 
     return (
         <div>

@@ -8,7 +8,7 @@ import analyzeSentiment from '../action/analyzeSentiment';
 const Tweets = () => {
     const classes = useStyles()
     const { keywords } = useGlobalContext()
-    let data = require('./data.json')
+    let data = require('./mockdata.json')
     console.log(data)
       let tweets = data.map((tweetObject) => {
         let senti = analyzeSentiment(tweetObject.text.split(' '))
@@ -32,7 +32,7 @@ const Tweets = () => {
     
     return (
         <div className={classes.tweetsboard}>
-            <Keywords />
+            {/* <Keywords /> */}
             <h1 className={classes.title}>Filltered Tweets</h1>
             {tweets.length > 0 ?
                     <div className={classes.table}>

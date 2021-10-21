@@ -24,7 +24,8 @@ const SearchBar = ({ onSubmit }) => {
         setSearchTerms(value)
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = (event) => {
+        // event.preventDefault();
         onSubmit(searchTerms)
     }
 
@@ -40,9 +41,9 @@ const SearchBar = ({ onSubmit }) => {
         <div>
             <Grid className={classes.home} container spacing={24}>
                 <Grid item md={8}>
-                    <form className={classes.form}>
-                        <input type="text" name="tags" label="Tags" onChange={e => handleChange(e)} onKeyPress={handleKeyPress} />
-                        <button type="submit" size="large" className={classes.buttonSubmit} onClick={handleSubmit} ><FaSearch /></button>
+                    <form className={classes.form} onSubmit={(event) => event.preventDefault()}>
+                        <input type="text" name="search" label="Search" onChange={e => handleChange(e)} onKeyPress={handleKeyPress} />
+                        <button size="large" className={classes.buttonSubmit} onClick={(event) => handleSubmit(event)} ><FaSearch /></button>
                     </form>
                 </Grid>
                 <Grid item md={11}>

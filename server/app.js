@@ -13,10 +13,10 @@ var indexRouter = require('./routes/index');
 var app = express();
 
 // view engine setup
-app.use(express.static('../client/build'))
+/* app.use(express.static('../client/build'))
 app.get("*", function (req, res) {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));
-});
+}); */
 app.use(cors())
 app.use(logger('dev'));
 app.use(express.json());

@@ -7,8 +7,9 @@ const AppProvider = ({ children }) => {
   const [keywords, setKeywords] = useState([])
   const [tweets, setTweets] = useState([])
   
-  useEffect(() => {
-    let data = require('./component/data.json')
+  //Mock data
+  /* useEffect(() => {
+    let data = require('./component/mockdata.json')
     let temp = data.map(tweetObject => {
           let senti = analyzeSentiment(tweetObject.text.split(' '))
           return {
@@ -25,8 +26,7 @@ const AppProvider = ({ children }) => {
           }
     })
     setTweets(temp)
-
-  }, [])
+  }, []) */
 
   useEffect(() => {
     console.log(tweets)
@@ -34,7 +34,7 @@ const AppProvider = ({ children }) => {
 
   return (
     <AppContext.Provider 
-        value={{ keywords, setKeywords, tweets }}
+        value={{ keywords, setKeywords, tweets, setTweets }}
     >
       {children}
     </AppContext.Provider>
