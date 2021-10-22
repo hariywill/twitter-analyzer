@@ -30,7 +30,6 @@ const TweetsTable = ({ tweets }) => {
                     rowData={tweets}
                 >
                     <AgGridColumn field="date" width={'auto'}></AgGridColumn> 
-                    <AgGridColumn field="mention" width={'auto'}></AgGridColumn>
                     <AgGridColumn field="tweet" width={'auto'}></AgGridColumn>
                     <AgGridColumn field="sentiment" width={'auto'}></AgGridColumn>
                 </AgGridReact>

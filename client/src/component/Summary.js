@@ -3,31 +3,35 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import { useGlobalContext } from '../context';
 
-const Summary = ({ user, details }) => {
+const Summary = ({ details }) => {
     const classes = useStyles()
-    const { tweets } = useGlobalContext()
+    const { tweets, user, sentiment } = useGlobalContext()
+    console.log(sentiment[0])
+    const positive = (sentiment[0] / 200) * 100 
+    const negative = (sentiment[1] / 200) * 100
+    const neutral = (sentiment[2] / 200) * 100
+    console.log(positive)
     return (
         <div className={classes.summary}>
             {(tweets.length > 0) && (
                 <Grid container spacing={0} className={classes.summaryboard}>
                     <Grid item xs={4} className={classes.profile}>
-                        <img src={tweets.profile} className={classes.profilepic} />
+                        <img src={user.img} className={classes.profilepic} />
                         <div className={classes.info}>
-                            <h2>User</h2>
-                            <p className={classes.username}>@{tweets.name}</p>
-                            <p className={classes.bio}>{tweets.bio}</p>
+                            <p className={classes.username}>@{user.screen_name}</p>
+                            <p className={classes.bio}>{user.description}</p>
                         </div>
                     </Grid>
                     <Grid item xs={4} >
                         <div className={classes.sentiment}>
-                            <h3>😁: {details.sentiment.positive}%</h3>
-                            <h3>😐: {details.sentiment.neutral}%</h3>
-                            <h3>😠: {details.sentiment.negative}%</h3>
+                            <h3>😁 : {parseInt(positive)}%</h3>
+                            <h3>😐 : {parseInt(neutral)}%</h3>
+                            <h3>😠 : {parseInt(negative)}%</h3>
                         </div>
                     </Grid>
                     <Grid item xs={4} >
                         <div className={classes.details}>
-                            <h3>This user has tweeted <span className={classes.numberoftweets}>{tweets.length}</span> times</h3>
+                            <h3>The last <span className={classes.numberoftweets}>{tweets.length}</span> tweets of this user.</h3>
                         </div>
                     </Grid>
                 </Grid>
@@ -70,11 +74,9 @@ const useStyles = makeStyles(theme => ({
     },
     username: {
         fontSize:'85%',
-        backgroundColor: 'yellow'
     },
     bio: {
         fontSize:'85%',
-        backgroundColor: 'yellow',
     },
     sentiment: {
         paddingLeft: '50px',

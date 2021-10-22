@@ -10,10 +10,10 @@ const WordCloud = () => {
     const getHashtags = (tweets) => {
         var newTweets = tweets
             .filter(tweet => {
-                return tweet.tweet.includes("#")
+                return tweet.text.includes("#")
             })
             .map(tweet => {
-                return tweet.tweet
+                return tweet.text
             })
         var hashtags = newTweets.map(string => {
             //does not take numbers
@@ -33,9 +33,7 @@ const WordCloud = () => {
         var count = {};
         hashtags.forEach((i) => { count[i] = (count[i]||0) + 1;})
         count = Object.entries(count)
-        console.log(count);
         var words = count.map(c => {
-            console.log(c)
             return {
                 text: c[0].substring(1),
                 value: c[1]
@@ -47,10 +45,6 @@ const WordCloud = () => {
     useEffect(() => {
         setWords(countWords(getHashtags(tweets)))
     }, [])
-
-    useEffect(() => {
-        console.log(words)
-    }, [words])
 
     return (
         <div>

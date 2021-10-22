@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import analyzeSentiment from './action/analyzeSentiment';
 
 const AppContext = React.createContext()
 
 const AppProvider = ({ children }) => {
   const [keywords, setKeywords] = useState([])
   const [tweets, setTweets] = useState([])
+  const [user, setUser] = useState([])
+  const [sentiment, setSentiment] = useState([])
   
   //Mock data
   /* useEffect(() => {
@@ -28,13 +29,11 @@ const AppProvider = ({ children }) => {
     setTweets(temp)
   }, []) */
 
-  useEffect(() => {
-    console.log(tweets)
-  }, [tweets])
+  
 
   return (
     <AppContext.Provider 
-        value={{ keywords, setKeywords, tweets, setTweets }}
+        value={{ keywords, setKeywords, tweets, setTweets, user, setUser, sentiment, setSentiment }}
     >
       {children}
     </AppContext.Provider>

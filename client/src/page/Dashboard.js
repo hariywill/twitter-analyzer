@@ -5,7 +5,7 @@ import Analysis from '../component/Analysis';
 import fetchTweets from '../action/fetchTweets';
 
 const Dashboard = ({ result }) => {
-    const [data, setData] = useState({});
+    /* const [data, setData] = useState({});
     const [error, setError] = useState('');
     const location = useLocation()
 
@@ -34,7 +34,7 @@ const Dashboard = ({ result }) => {
     }, [result.params.account, location.state.detail])
 
     //Saving Tweet ID to be sent as a body in the post request.
-    useEffect(() => sessionStorage.setItem('TwitterID', data?.tweets && data.tweets[0].id), [data])
+    useEffect(() => sessionStorage.setItem('TwitterID', data?.tweets && data.tweets[0].id), [data]) */
 
     return (
         <>

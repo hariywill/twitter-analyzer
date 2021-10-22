@@ -1,37 +1,67 @@
 import React from 'react'
+import { Grid, Typography } from '@material-ui/core';
+import { useHistory } from "react-router-dom";
+import fetchTweets from '../action/fetchTweets';
+import { useGlobalContext } from '../context'
+import analyzeSentiment from '../action/analyzeSentiment';
+
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Grid, Typography } from '@material-ui/core';
 
 import Search from './Search'
 
 const Header = () => {
-    /* const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-    const history = useHistory(); */
     const classes = useStyles()
+    const history = useHistory()
+    const { setTweets, tweets, setUser, setSentiment } = useGlobalContext()
 
-    /* handleSubmit = async (value) => {
-        setError(false)
-        setLoading(true)
+    const getOverallSentiment = (tweets) => {
+        let senti = [ 0, 0, 0 ] //positive, negative, neutral
+        console.log(tweets)
+        tweets.map(tweet => {
+            let num = analyzeSentiment(tweet.text.split(' '))
+            if (num > 0) {
+              senti[0] = senti[0] + 1
+            } else if (num < 0) {
+              senti[1] = senti[1] + 1
+            } else {
+              senti[2] = senti[2] + 1
+            }
+            })
+            return senti
+        }
 
+    const handleSubmit = async (value) => {
         try {
             const postBody = { twitterId: '0' }
-            const res = await FetchServer(value, postBody);
-            if (res.result.usernameError) {
+            const res = await fetchTweets(value, postBody);
+            console.log('Fetch tweets result:')
+            setTweets(res.tweets)
+            setUser(res.user)
+            setSentiment(getOverallSentiment(tweets))
+            history.push({
+                pathname: `/dashboard/${value}`,
+            })
+            /* if (res.result.usernameError) {
                 setError('No username found. Please enter a correct username')
+                console.log(error)
+            }
+            else if (res.result.serverError) {
+                setError('Error Fetching Data from Server')
+                console.log(error)
             }
             else {
-                setLoading(false)
+                setTweets(res.result)
+                console.log('push!!!')
                 history.push({
-                    pathname: `/analysis/${value}`,
-                    state: { detail: res.result }
+                    pathname: `/dashboard/${value}`,
+                    //state: { detail: res }
                 })
-            }
+            } */
         } catch {
-            setError('Error fetching data from server.')
+            //setError('Error fetching data from server.')
         }
-    } */
+    }
 
     return (
         <div>
@@ -40,7 +70,7 @@ const Header = () => {
                     <Typography variant="h4" className={classes.text}>Tweets Analysis</Typography>
                 </Grid>
                 <Grid item md={3}>
-                    <Search />
+                    <Search onSubmit={async (value) => {handleSubmit(value)}} />
                 </Grid>
             </Grid>
         </div>

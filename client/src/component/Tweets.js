@@ -7,28 +7,19 @@ import analyzeSentiment from '../action/analyzeSentiment';
 
 const Tweets = () => {
     const classes = useStyles()
-    const { keywords } = useGlobalContext()
-    let data = require('./mockdata.json')
-    console.log(data)
-      let tweets = data.map((tweetObject) => {
+    const { tweets } = useGlobalContext()
+
+    let data = tweets.map((tweetObject) => {
         let senti = analyzeSentiment(tweetObject.text.split(' '))
-        let mentionArray = tweetObject.entities.user_mentions
-        let mentionString
-        if (mentionArray.length > 0) {
-            mentionString = mentionArray
-                                    .map(mention => mention.screen_name)
-                                    .join(', ')
-        } else mentionString = "-"
         let newarray = {
-              date: tweetObject.created_at,
-              mention: mentionString,
-              tweet: tweetObject.text,
-              sentiment: senti > 0 ? "happy" 
-                    : senti == 0 ? "calm"
-                    : "mad"
-          }  
+                date: tweetObject.date.slice(0, 10),
+                tweet: tweetObject.text,
+                sentiment: senti > 0 ? "😁" 
+                      : senti == 0 ? "😐"
+                      : "😠"
+        }  
         return newarray 
-      })
+    })
     
     return (
         <div className={classes.tweetsboard}>
@@ -36,7 +27,7 @@ const Tweets = () => {
             <h1 className={classes.title}>Filltered Tweets</h1>
             {tweets.length > 0 ?
                     <div className={classes.table}>
-                        <TweetsTable tweets={tweets} />
+                        <TweetsTable tweets={data} />
                     </div>
                 :
                     <h2>No Available Tweets</h2>

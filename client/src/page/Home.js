@@ -1,28 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from "react-router-dom";
 import { Jumbotron, Container } from 'reactstrap';
 import Search from '../component/Search';
 import fetchTweets from '../action/fetchTweets';
 import { useGlobalContext } from '../context'
+import analyzeSentiment from '../action/analyzeSentiment';
 
 const Home = () => {
-    const history = useHistory();
+    const history = useHistory()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
-    const { setTweets, tweets } = useGlobalContext()
+    const { setTweets, tweets, setUser, setSentiment } = useGlobalContext()
+
+    const getOverallSentiment = (tweets) => {
+        let senti = [ 0, 0, 0 ] //positive, negative, neutral
+        console.log(tweets)
+        tweets.map(tweet => {
+            let num = analyzeSentiment(tweet.text.split(' '))
+            if (num > 0) {
+              senti[0] = senti[0] + 1
+            } else if (num < 0) {
+              senti[1] = senti[1] + 1
+            } else {
+              senti[2] = senti[2] + 1
+            }
+            })
+            return senti
+        }
 
     const handleSubmit = async (value) => {
         try {
             const postBody = { twitterId: '0' }
             const res = await fetchTweets(value, postBody);
             console.log('Fetch tweets result:')
-            console.log(res)
-            setTweets(res.result)
-                console.log('push!!!')
-                history.push({
-                    pathname: `/dashboard/${value}`,
-                    //state: { detail: res }
-                })
+            setTweets(res.tweets)
+            setUser(res.user)
+            setSentiment(getOverallSentiment(tweets))
+            history.push({
+                pathname: `/dashboard/${value}`,
+            })
             /* if (res.result.usernameError) {
                 setError('No username found. Please enter a correct username')
                 console.log(error)

@@ -9,7 +9,7 @@ const Chart = () => {
     const getMonthsOfTweets = (tweets) => {
         var months = tweets.map(tweet => {
             //split the date string by " ", then get the second element of each string array which is month
-            return (tweet.date.split(' '))[1]
+            return tweet.date.slice(5, 7)
         })
         return months
     }
@@ -20,22 +20,23 @@ const Chart = () => {
         return counts
     }
     months = countMonths(getMonthsOfTweets(tweets))
-        labels = Object.keys(months)
-        times = Object.values(months)
-        state = {
-            labels: labels,
-              datasets: [
-                    {
-                      label: 'Number of tweets',
-                      fill: false,
-                      lineTension: 0,
-                      backgroundColor: 'rgba(75,192,192,1)',
-                      borderColor: 'rgba(75,192,192,1)',
-                      borderWidth: 2,
-                      data: times
-                }
-            ]
-        }
+    console.log(months)
+    labels = Object.keys(months)
+    times = Object.values(months)
+    state = {
+        labels: labels,
+          datasets: [
+                {
+                  label: 'Number of tweets',
+                  fill: false,
+                  lineTension: 0,
+                  backgroundColor: 'rgba(75,192,192,1)',
+                  borderColor: 'rgba(75,192,192,1)',
+                  borderWidth: 2,
+                  data: times
+            }
+        ]
+    }
 
     useEffect(() => {
         console.log(tweets)
