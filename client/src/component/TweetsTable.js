@@ -23,6 +23,7 @@ const TweetsTable = ({ tweets }) => {
         console.log(tweets)
     }, [tags]) */
 
+
     return (
         <div>
             <div className="ag-theme-alpine" style={{height: 400, width: '96%'}}>

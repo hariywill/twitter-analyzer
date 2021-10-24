@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Link } from "react-router-dom";
 import { Grid, Typography } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import fetchTweets from '../action/fetchTweets';
@@ -13,6 +14,8 @@ import Search from './Search'
 const Header = () => {
     const classes = useStyles()
     const history = useHistory()
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
     const { setTweets, tweets, setUser, setSentiment } = useGlobalContext()
 
     const getOverallSentiment = (tweets) => {
@@ -67,7 +70,7 @@ const Header = () => {
         <div>
             <Grid className={classes.row} container spacing={24}>
                 <Grid item md={9}>
-                    <Typography variant="h4" className={classes.text}>Tweets Analysis</Typography>
+                    <Typography variant="h4" className={classes.text}><Link to="/" className={classes.text}>Tweets Analysis</Link></Typography>
                 </Grid>
                 <Grid item md={3}>
                     <Search onSubmit={async (value) => {handleSubmit(value)}} />
@@ -85,7 +88,8 @@ const useStyles = makeStyles(theme => ({
     },
     text: {
        color: 'ivory',
-       paddingLeft: '20px'
+       paddingLeft: '20px',
+       textDecoration: 'none'
     },
     loading: {
         paddingLeft: '2.2%',

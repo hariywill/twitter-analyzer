@@ -20,7 +20,6 @@ const Chart = () => {
         return counts
     }
     months = countMonths(getMonthsOfTweets(tweets))
-    console.log(months)
     labels = Object.keys(months)
     times = Object.values(months)
     state = {
@@ -37,10 +36,6 @@ const Chart = () => {
             }
         ]
     }
-
-    useEffect(() => {
-        console.log(tweets)
-    }, [tweets])
 
     return (
         <div>

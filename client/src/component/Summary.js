@@ -3,14 +3,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import { useGlobalContext } from '../context';
 
-const Summary = ({ details }) => {
+const Summary = () => {
     const classes = useStyles()
     const { tweets, user, sentiment } = useGlobalContext()
-    console.log(sentiment[0])
     const positive = (sentiment[0] / 200) * 100 
     const negative = (sentiment[1] / 200) * 100
     const neutral = (sentiment[2] / 200) * 100
-    console.log(positive)
     return (
         <div className={classes.summary}>
             {(tweets.length > 0) && (

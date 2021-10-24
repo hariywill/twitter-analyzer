@@ -44,7 +44,7 @@ const WordCloud = () => {
 
     useEffect(() => {
         setWords(countWords(getHashtags(tweets)))
-    }, [])
+    }, [tweets])
 
     return (
         <div>

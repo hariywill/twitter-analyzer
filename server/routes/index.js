@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const twitter = require('../../server/action/fetchTwitter');
+//const twitter = require('../../server/action/fetchTwitter');
+const twitter = require('../../server/action/twitter');
 require('dotenv').config();
 
 /*POST FROM CLIENT SIDE*/

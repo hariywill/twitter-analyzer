@@ -27,7 +27,7 @@ const Analysis = () => {
     }
     return (
         <div>
-            <Summary user={user} details={details} />
+            <Summary />
             <Grid container className={classes.charts} >
                 <Grid item md={6} className={classes.barchart}>
                     <Chart />

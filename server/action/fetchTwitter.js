@@ -25,9 +25,7 @@ module.exports = {
             return redisClient.get(accountname, async (err, result) => {
                 try {
                     //No tweets in bucket, pull from twitter
-                    console.log('Fetch Tweets Started --------------- ')
                     tweetsResult = await module.exports.fetchTweet(accountname);
-                    console.log('Fetch Tweets Finished --------------- ')
                     //User does not exist
                     if (tweetsResult.error) {
                         return resolve({ 'usernameError': true })
@@ -100,9 +98,9 @@ module.exports = {
     buildTweetObject: async (analysis) => {
         const data = {};
         data.tweets = analysis[0];
-        data.allsentiment = analysis[1];
-        data.topics = analysis[2];
-        data.monthlySentiment = analysis[3];
+        //data.allsentiment = analysis[1];
+        //data.topics = analysis[2];
+        //data.monthlySentiment = analysis[3];
         return data;
     },
 

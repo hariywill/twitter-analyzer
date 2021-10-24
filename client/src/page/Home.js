@@ -14,7 +14,6 @@ const Home = () => {
 
     const getOverallSentiment = (tweets) => {
         let senti = [ 0, 0, 0 ] //positive, negative, neutral
-        console.log(tweets)
         tweets.map(tweet => {
             let num = analyzeSentiment(tweet.text.split(' '))
             if (num > 0) {
@@ -32,7 +31,6 @@ const Home = () => {
         try {
             const postBody = { twitterId: '0' }
             const res = await fetchTweets(value, postBody);
-            console.log('Fetch tweets result:')
             setTweets(res.tweets)
             setUser(res.user)
             setSentiment(getOverallSentiment(tweets))

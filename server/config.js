@@ -7,6 +7,7 @@ module.exports = {
     access_token: process.env.ACCESS_TOKEN,
     access_token_secret: process.env.ACCESS_TOKEN_SECRET,
 
-    bucketName: process.env.BUCKET_NAME
+    bucketName: process.env.BUCKET_NAME,
+    elasticConfig: process.env.ELASTIC_CACHE,
 
 }

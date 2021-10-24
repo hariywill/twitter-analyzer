@@ -10,13 +10,11 @@ module.exports = {
 
     getTweets: async (accountname, lastTwitterId) => {
         return new Promise((resolve, reject) => {
+            console.log(config.elasticConfig)
             const redisClient = redis.createClient({
-                //REMOVE THESE LINES IF USING REDIS ON LOCAL COMPUTER
-                //host: config.elasticConfig,
-                //port: 6379
-                //--------------END OF REMOVE LINE---------------------------//
+                /* host: config.elasticConfig,
+                port: 6379 */
             });
-
             redisClient.on('error', (err) => {
                 resolve({ 'serverError': true })
             });
@@ -28,15 +26,18 @@ module.exports = {
                 try {
                     //Found in cache
                     if (result && lastTwitterId != 0) {
+                        console.log(result)
                         //Checks for new tweets since clients last tweet
                         let newTweets = await module.exports.refreshTweets(accountname, lastTwitterId);
                         //No new tweets
                         if (newTweets.length === 0) {
+                            console.log('Get tweets from ElastiCache')
                             redisClient.setex(accountname, 90, result)
                             resolve()
                         }
                         //New tweets Found
                         else {
+                            console.log('Get tweets from ElastiCache')
                             //Ensures searched for tweet is not included in result
                             if (newTweets[0].id == lastTwitterId) {
                                 redisClient.setex(accountname, 90, result)
@@ -57,6 +58,7 @@ module.exports = {
                             }
                         }
                     } else {
+                        console.log('Get tweets from S3 Bucket')
                         //If the user is not in the cache, check the S3 bucket
                         return new AWS.S3({ apiVersion: '2006-03-01' }).getObject(params, async (err, result) => {
                             if (result) {
@@ -81,6 +83,7 @@ module.exports = {
                                     }
                                 }
                             } else {
+                                console.log('Get tweets from Twitter API')
                                 //No tweets in bucket, pull from twitter
                                 tweetsResult = await module.exports.fetchTweet(accountname);
                                 //User does not exist
@@ -130,7 +133,6 @@ module.exports = {
                         tweetsdata.push(tweet);
                     })
                     if (!err) {
-                        console.log(tweetsdata)
                         return resolve([user, tweetsdata]);
                     }
                     else {

@@ -24,7 +24,7 @@ const Tweets = () => {
     return (
         <div className={classes.tweetsboard}>
             {/* <Keywords /> */}
-            <h1 className={classes.title}>Filltered Tweets</h1>
+            <h1 className={classes.title}>All Tweets</h1>
             {tweets.length > 0 ?
                     <div className={classes.table}>
                         <TweetsTable tweets={data} />
